@@ -1,7 +1,8 @@
-﻿using System.Net;
-using System.Net.Mime;
-using System.Net.Sockets;
+﻿using System.Net.Mime;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace MekashronLoginPage.Application;
 
@@ -53,7 +54,63 @@ public class AuthorizationProvider : IAuthorizationProvider
         httpRequest.Headers.Add("Access-Control-Allow-Origin", "*");
 
         var responseContent = await httpClient.SendAsync(httpRequest);
-            
-        return responseContent.IsSuccessStatusCode;
+        
+        var responseString = await responseContent.Content.ReadAsStringAsync();
+
+        var xmlSerializer = new XmlSerializer(typeof(Envelope));
+        using var reader = new StringReader(responseString);
+        var envelope = (Envelope)xmlSerializer.Deserialize(reader);
+
+        if (envelope == null)
+        {
+            return false;
+        }
+        
+        var jsonResponse = envelope.Body.LoginResponse.Return;
+        var loginResponse = JsonSerializer.Deserialize<LoginResponseData>(jsonResponse);
+        
+        return string.Equals(loginResponse?.Email, userName, StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+    public class Envelope
+    {
+        [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
+        public Body Body { get; set; } = null!;
+    }
+
+    public class Body
+    {
+        [XmlElement(ElementName = "LoginResponse", Namespace = "urn:ICUTech.Intf-IICUTech")]
+        public LoginResponse LoginResponse { get; set; } = null!;
+    }
+
+    public class LoginResponse
+    {
+        [XmlElement(ElementName = "return", Namespace = "")]
+        public string Return { get; set; } = null!;
+    }
+
+    public class LoginResponseData
+    {
+        public int EntityId { get; init; }
+        public string? FirstName { get; init; }
+        public string? LastName { get; init; }
+        public string? Company { get; init; }
+        public string? Address { get; init; }
+        public string? City { get; init; }
+        public string? Country { get; init; }
+        public string? Zip { get; init; }
+        public string? Phone { get; init; }
+        public string? Mobile { get; init; }
+        public string? Email { get; init; }
+        public int EmailConfirm { get; init; }
+        public int MobileConfirm { get; init; }
+        public int CountryID { get; init; }
+        public int Status { get; init; }
+        [JsonPropertyName("lid")]
+        public string? Lid { get; init; }
+        public string? FTPHost { get; init; }
+        public int FTPPort { get; init; }
     }
 }
