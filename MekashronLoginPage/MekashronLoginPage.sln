@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MekashronLoginPage.Api", "MekashronLoginPage.Api\MekashronLoginPage.Api.csproj", "{060C6EF3-2526-40A4-BC90-DA0E1D374C01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MekashronLoginPage.Application", "MekashronLoginPage.Application\MekashronLoginPage.Application.csproj", "{DE861B17-87F0-4DEC-9D66-8C133D6AA289}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{060C6EF3-2526-40A4-BC90-DA0E1D374C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060C6EF3-2526-40A4-BC90-DA0E1D374C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060C6EF3-2526-40A4-BC90-DA0E1D374C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060C6EF3-2526-40A4-BC90-DA0E1D374C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE861B17-87F0-4DEC-9D66-8C133D6AA289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE861B17-87F0-4DEC-9D66-8C133D6AA289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE861B17-87F0-4DEC-9D66-8C133D6AA289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE861B17-87F0-4DEC-9D66-8C133D6AA289}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
