@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MekashronLoginPage.Application.Providers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MekashronLoginPage.Application;
@@ -9,9 +10,11 @@ public static class DependencyRegistrar
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<AuthorizationConfig>(configuration.GetSection(AuthorizationConfig.SectionName));
-        services.AddSingleton<IAuthorizationConfigProvider, AuthorizationConfigProvider>();
+        services.Configure<LoginConfig>(configuration.GetSection(LoginConfig.SectionName));
+        services.AddSingleton<ILoginConfigProvider, LoginConfigProvider>();
         
-        services.AddScoped<IAuthorizationProvider, AuthorizationProvider>();
+        services.AddScoped<ILoginProvider, LoginProvider>();
+
+        services.AddHttpClient<LoginProvider>();
     }
 }

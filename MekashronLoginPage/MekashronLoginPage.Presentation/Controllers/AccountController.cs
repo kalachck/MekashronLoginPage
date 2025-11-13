@@ -1,4 +1,4 @@
-﻿using MekashronLoginPage.Application;
+﻿using MekashronLoginPage.Application.Providers;
 using MekashronLoginPage.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +6,11 @@ namespace MekashronLoginPage.Presentation.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly IAuthorizationProvider _authProvider;
+    private readonly ILoginProvider _loginProvider;
 
-    public AccountController(IAuthorizationProvider authProvider)
+    public AccountController(ILoginProvider loginProvider)
     {
-        _authProvider = authProvider;
+        _loginProvider = loginProvider;
     }
     
     [HttpGet]
@@ -30,11 +30,12 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var loginSuccess = await _authProvider.LoginAsync(model.Username, model.Password);
+        var loginResponse = await _loginProvider.LoginAsync(model.Username, model.Password);
 
         ViewBag.ShowToast = true;
-        if (loginSuccess)
+        if (loginResponse is not null)
         {
+            ViewBag.LoginResponse = loginResponse;
             ViewBag.ToastMessage = "Login successful!";
             ViewBag.ToastClass = "bg-success";
         }

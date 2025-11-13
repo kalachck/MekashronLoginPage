@@ -1,0 +1,9 @@
+services:
+  mekashron-login-page:
+    build:
+      context: ./MekashronLoginPage
+      dockerfile: Dockerfile
+    container_name: mekashron-login-page
+    restart: always
+    ports: 
+      - 8000:8080

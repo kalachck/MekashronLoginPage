@@ -3,7 +3,6 @@ using MekashronLoginPage.Application;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
 
 builder.Services.AddApplicationDependencies(builder.Configuration);
 
@@ -24,7 +23,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}")
+        pattern: "{controller=Account}/{action=Login}")
     .WithStaticAssets();
 
 

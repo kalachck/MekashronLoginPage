@@ -1,7 +1,9 @@
-﻿@model LoginViewModel
+﻿@using MekashronLoginPage.Application.Dtos
+@model MekashronLoginPage.Presentation.Models.LoginViewModel
 
 @{
     Layout = null;
+    var loginResponse = ViewBag.LoginResponse as LoginResponseDto;
     var showToast = ViewBag.ShowToast ?? false;
     var toastMessage = ViewBag.ToastMessage ?? "";
     var toastClass = ViewBag.ToastClass ?? "bg-success";
@@ -42,12 +44,49 @@
 
         <!-- Toast -->
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
-            <div class="toast align-items-center text-white @toastClass border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="display:@(showToast ? "flex" : "none")">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        @toastMessage
+            <div class="toast align-items-center text-white @toastClass border-0 show shadow-lg"
+                 role="alert" aria-live="assertive" aria-atomic="true"
+                 style="display:@(showToast ? "flex" : "none"); min-width: 320px;">
+
+                <div class="d-flex flex-column w-100">
+                    <div class="toast-body d-flex flex-row">
+                        <div class="toast-message" style="font-size: 20px">
+                                <strong>@toastMessage</strong>
+                        </div>
+                        <div class="ms-auto">
+                            <button type="button" class="btn-close btn-close-white m-1" style="transform: scale(1.1)"
+                                    aria-label="Close" onclick="this.closest('.toast').style.display='none'">
+                            </button>
+                        </div>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Close" onclick="this.closest('.toast').style.display='none'"></button>
+
+                    @if (loginResponse != null)
+                    {
+                        <div class="login-response bg-light text-dark rounded mt-2 p-2"
+                             style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-sm table-striped table-hover table-bordered align-middle mb-0">
+                                <thead class="table-primary">
+                                <tr>
+                                    <th style="width: 40%;">Property</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var prop in loginResponse.GetType().GetProperties())
+                                {
+                                    var name = prop.Name;
+                                    var value = prop.GetValue(loginResponse, null) ?? "(null)";
+                                    <tr>
+                                        <td>@name</td>
+                                        <td>@value</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                   
                 </div>
             </div>
         </div>
