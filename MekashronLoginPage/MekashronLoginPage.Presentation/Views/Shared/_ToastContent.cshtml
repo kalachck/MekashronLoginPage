@@ -2,15 +2,32 @@
 
 @{
     var toastMessage = ViewBag.ToastMessage ?? "";
+    
+    var toastClass = ViewBag.ToastClass ?? "bg-success"; 
+    
+    var iconClass = "bi-check-circle-fill"; // Иконка по умолчанию (успех)
+    var textClass = "text-success";         // Цвет текста по умолчанию
+
+    if (toastClass.Contains("danger")) // Если это ошибка (e.g., "bg-danger")
+    {
+        iconClass = "bi-exclamation-triangle-fill";
+        textClass = "text-danger";
+    }
 }
 
 <div class="d-flex flex-column w-100">
-    <div class="toast-body d-flex flex-row">
-        <div class="toast-message" style="font-size: 20px">
-            <strong>@toastMessage</strong>
+    <div class="toast-body d-flex flex-row align-items-center">
+        
+        <div class="fs-4 me-3 @textClass">
+            <i class="bi @iconClass"></i>
         </div>
+        
+        <div class="toast-message" style="font-size: 20px">
+            <strong class="@textClass">@toastMessage</strong>
+        </div>
+        
         <div class="ms-auto">
-            <button type="button" class="btn-close btn-close-white m-1" style="transform: scale(1.1)"
+            <button type="button" class="btn-close m-1" style="transform: scale(1.1)"
                     aria-label="Close" onclick="this.closest('.toast').style.display='none'">
             </button>
         </div>
@@ -18,7 +35,7 @@
 
     @if (Model != null)
     {
-        <div class="login-response bg-light text-dark rounded mt-2 p-2"
+        <div class="login-response text-dark rounded mt-2 p-2 mx-3 mb-3"
              style="max-height: 400px; overflow-y: auto;">
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-hover table-bordered align-middle mb-0">
